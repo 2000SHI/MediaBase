@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ElMessage } from "element-plus";
 import router from "@/router";
+import { useTokenStore } from "@/stores/token";
 
 // const baseURL = 'http://localhost:8080/';
 const baseURL = '/api';
@@ -32,7 +33,8 @@ instance.interceptors.response.use(
         }
     },
     err => {
-        if (err.response.status === 401) {
+        console.log(err.response)
+        if (err.response && err.response.status === 401) {
             ElMessage.error('Unauthorized, please login again');
             router.push('/login');
         }

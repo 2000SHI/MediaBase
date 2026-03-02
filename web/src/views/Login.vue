@@ -1,6 +1,6 @@
 <script setup>
   import { loginUserService } from '@/api/user'
-import { useTokenStore } from '@/stores/token'
+  import { useTokenStore } from '@/stores/token'
   import { ElMessage } from 'element-plus'
   import { ref } from 'vue'
   import { useRouter } from 'vue-router'
@@ -9,6 +9,8 @@ import { useTokenStore } from '@/stores/token'
     username: '',
     password: ''
   })
+
+  const router = useRouter()
 
   const rules = ({
     username: [
@@ -45,7 +47,7 @@ import { useTokenStore } from '@/stores/token'
     const result = await loginUserService(data.value)
     ElMessage.success(result.message ?? 'login succeeded')
     tokenStore.setToken(result.data)
-    useRouter().push('/')
+    router.push('/')
   }
 
   const resetForm = () => {
@@ -75,6 +77,7 @@ import { useTokenStore } from '@/stores/token'
         Login
       </el-button>
       <el-button @click="resetForm()">Reset</el-button>
+      <el-button @click="router.push('/')" link>Continue as a guest</el-button>
     </el-form-item>
   </el-form>
 </template>

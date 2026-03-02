@@ -10,6 +10,8 @@
     rePassword: ''
   })
 
+  const router = useRouter()
+
   const validateRePass = (rule, value, callback) => {
     if (value === '') {
       callback(new Error('Please input the password again'))
@@ -53,7 +55,7 @@
   const submitForm = async () => {
     const result = await registerUserService(data.value)
     ElMessage.success(result.message ?? 'register succeeded')
-    useRouter().push('/')
+    router.push('/')
   }
 
   const resetForm = () => {
@@ -91,6 +93,7 @@
         Sign up
       </el-button>
       <el-button @click="resetForm()">Reset</el-button>
+      <el-button @click="router.push('/')" link>Continue as a guest</el-button>
     </el-form-item>
   </el-form>
 </template>

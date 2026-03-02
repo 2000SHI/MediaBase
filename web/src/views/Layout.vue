@@ -1,10 +1,13 @@
 <script setup>
-    import { useUserInfoStore } from '@/stores/userinfo';
+import { useUserInfoStore } from '@/stores/userinfo';
+import { useRouter } from 'vue-router';
+import { Document, User, Search } from '@element-plus/icons-vue';
 
-    const userInfoStore = useUserInfoStore();
-    const search = () => {
-        console.log('searching')
-    }
+const router = useRouter();
+const userInfoStore = useUserInfoStore();
+const search = () => {
+    console.log('searching')
+}
 </script>
 
 <template>
@@ -19,6 +22,10 @@
                 <el-menu-item index="/me">
                     <el-icon><User /></el-icon>
                     <span>Me</span>
+                </el-menu-item>
+                <el-menu-item index="/search">
+                    <el-icon><Search /></el-icon>
+                    <span>Search</span>
                 </el-menu-item>
             </el-menu>
         </el-aside>
@@ -41,8 +48,8 @@
                      </el-dropdown>
                  </div>
                  <div v-else>
-                    <el-button>Sign in</el-button>
-                    <el-button>Sign up</el-button>
+                    <el-button @click="router.push('/login')">Sign in</el-button>
+                    <el-button @click="router.push('/register')">Sign up</el-button>
                  </div>
             </el-header>
             <el-main>
