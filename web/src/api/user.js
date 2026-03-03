@@ -24,3 +24,26 @@ export const userInfoService = () => {
         { headers: { 'Authorization': tokenStore.token } }
     );
 }
+
+export const updateService = (data) => {
+    const tokenStore = useTokenStore();
+    return request.put(
+        '/user/update',
+        data,
+        { headers: { 'Authorization': tokenStore.token } }
+    );
+}
+
+export const uploadAvatarService = (file) => {
+    const tokenStore = useTokenStore();
+    const formData = new FormData();
+    formData.append('avatar', file);
+    return request.patch(
+        '/user/updateAvatar',
+        formData,
+        { headers: {
+            'Authorization': tokenStore.token ,
+            'Content-Type': 'multipart/form-data'
+        } }
+    );
+}

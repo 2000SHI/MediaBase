@@ -3,11 +3,20 @@ import { useUserInfoStore } from '@/stores/userinfo';
 import { useRouter } from 'vue-router';
 import { Document, User, Search } from '@element-plus/icons-vue';
 import avater from '@/assets/default-avater.avif';
+import { useTokenStore } from '@/stores/token';
 
 const router = useRouter();
 const userInfoStore = useUserInfoStore();
-const search = () => {
-    console.log('searching')
+const tokenStore = useTokenStore();
+
+const handleCommand = (command) => {
+  if (command === 'logout') {
+      userInfoStore.removeInfo();
+      tokenStore.removeToken();
+      router.push('/login');
+} else {
+    router.push('/me');
+  }
 }
 </script>
 
@@ -34,7 +43,7 @@ const search = () => {
             <el-header class="header">
                  <div v-if="userInfoStore.info && userInfoStore.info.username">
                      <span>{{ userInfoStore.info.username }}</span>
-                     <el-dropdown>
+                     <el-dropdown @command="handleCommand">
                          <!-- <el-avatar></el-avatar> -->
                          <el-avatar :src="userInfoStore.info.avatar || avater" />
                          <!-- <span class="el-dropdown-link">
@@ -42,8 +51,8 @@ const search = () => {
                          </span> -->
                          <template #dropdown>
                              <el-dropdown-menu>
-                                 <el-dropdown-item>Profile</el-dropdown-item>
-                                 <el-dropdown-item>Logout</el-dropdown-item>
+                                <el-dropdown-item command="me">Profile</el-dropdown-item>
+                                <el-dropdown-item command="logout">Logout</el-dropdown-item>
                              </el-dropdown-menu>
                          </template>
                      </el-dropdown>

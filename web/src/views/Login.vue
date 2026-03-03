@@ -14,7 +14,6 @@ import { useUserInfoStore } from '@/stores/userinfo'
     if (tokenStore.token) {
       try {
         const infoRes = await userInfoService();
-        console.log(infoRes.data);
         userInfoStore.setInfo(infoRes.data);
         router.push('/');
       } catch (error) {
