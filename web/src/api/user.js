@@ -1,3 +1,4 @@
+import { useTokenStore } from '@/stores/token'
 import request from '@/utils/request'
 
 export const registerUserService = (data) => {
@@ -14,4 +15,12 @@ export const loginUserService = (data) => {
         params.append(key, data[key]);
     }
     return request.post('/user/login', params);
+}
+
+export const userInfoService = () => {
+    const tokenStore = useTokenStore();
+    return request.get(
+        '/user/info',
+        { headers: { 'Authorization': tokenStore.token } }
+    );
 }

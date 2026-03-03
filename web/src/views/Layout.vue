@@ -2,6 +2,7 @@
 import { useUserInfoStore } from '@/stores/userinfo';
 import { useRouter } from 'vue-router';
 import { Document, User, Search } from '@element-plus/icons-vue';
+import avater from '@/assets/default-avater.avif';
 
 const router = useRouter();
 const userInfoStore = useUserInfoStore();
@@ -31,11 +32,11 @@ const search = () => {
         </el-aside>
         <el-aside class="right">
             <el-header class="header">
-                 <div v-if="userInfoStore.info && userInfoStore.info.name">
-                     <span>{{ userInfoStore.info.name }}</span>
+                 <div v-if="userInfoStore.info && userInfoStore.info.username">
+                     <span>{{ userInfoStore.info.username }}</span>
                      <el-dropdown>
                          <!-- <el-avatar></el-avatar> -->
-                         <span>avatar</span>
+                         <el-avatar :src="userInfoStore.info.avatar || avater" />
                          <!-- <span class="el-dropdown-link">
                              Dropdown List<i class="el-icon-arrow-down el-icon--right"></i>
                          </span> -->

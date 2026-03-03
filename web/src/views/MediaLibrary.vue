@@ -66,7 +66,7 @@ const onCurrentChange = (page) => {
             <el-table-column prop="type" label="Type" width="180" />
         </el-table> -->
         <el-card v-for="media in mediaList.items" :key="media.id" style="margin-top: 20px">
-            <p>{{ media.title }}</p>
+            <p class="title">{{ media.title }}</p>
             <p>{{ media.type }}</p>
             <p v-if="media.description">{{ media.description }}</p>
             <p>release: {{ media.releaseDate }}</p>
@@ -87,5 +87,9 @@ const onCurrentChange = (page) => {
     .container {
         width: 100%;
         height: 100%;
+    }
+    .title {
+        font-size: 24px;
+        font-weight: bold;
     }
 </style>

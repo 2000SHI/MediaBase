@@ -64,13 +64,13 @@ const onCurrentChange = (page) => {
         <el-button @click="search" type="primary">Search</el-button>
         <el-card v-for="item in result.items" :key="item.id" style="margin-top: 20px">
             <div v-if="item.type">
-                <p>{{ item.title }}</p>
+                <p class="title">{{ item.title }}</p>
                 <p>{{ item.type }}</p>
                 <p v-if="item.description">{{ item.description }}</p>
                 <p>release: {{ item.releaseDate }}</p>
             </div>
             <div v-else>
-                <p>{{  item.name  }}</p>
+                <p class="title">{{  item.name  }}</p>
                 <p v-if="item.bio">{{  item.bio  }}</p>
             </div>
         </el-card>
@@ -90,5 +90,9 @@ const onCurrentChange = (page) => {
     .container {
         width: 100%;
         height: 100%;
+    }
+    .title {
+        font-size: 24px;
+        font-weight: bold;
     }
 </style>

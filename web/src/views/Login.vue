@@ -1,28 +1,60 @@
 <script setup>
-  import { loginUserService } from '@/api/user'
+  import { loginUserService, userInfoService } from '@/api/user'
   import { useTokenStore } from '@/stores/token'
+import { useUserInfoStore } from '@/stores/userinfo'
   import { ElMessage } from 'element-plus'
   import { ref } from 'vue'
   import { useRouter } from 'vue-router'
+
+  const router = useRouter();
+  const tokenStore = useTokenStore();
+  const userInfoStore = useUserInfoStore();
+
+  const checkToken = async () => {
+    if (tokenStore.token) {
+      try {
+        const infoRes = await userInfoService();
+        console.log(infoRes.data);
+        userInfoStore.setInfo(infoRes.data);
+        router.push('/');
+      } catch (error) {
+        tokenStore.setToken('');
+        userInfoStore.setInfo(null);
+        console.error('Session expired, please login again');
+      }
+    }
+  }
+
+  checkToken();
   
   const data = ref({
-    username: '',
+    email: '',
     password: ''
   })
 
-  const router = useRouter()
-
   const rules = ({
-    username: [
+    // username: [
+    //   {
+    //     require: true,
+    //     message: 'please enter your username', 
+    //     trigger: 'blur'
+    //   },
+    //   {
+    //     min: 1,
+    //     max: 32,
+    //     message: 'username length should be 1-32 characters',
+    //     trigger: 'blur'
+    //   }
+    // ],
+    email: [
       {
         require: true,
-        message: 'please enter your username', 
+        message: 'please enter your email', 
         trigger: 'blur'
       },
       {
-        min: 1,
-        max: 32,
-        message: 'username length should be 1-32 characters',
+        type: 'email',
+        message: 'please enter a valid email address',
         trigger: 'blur'
       }
     ],
@@ -41,18 +73,23 @@
     ]
   })
 
-  const tokenStore = useTokenStore()
-
   const submitForm = async () => {
-    const result = await loginUserService(data.value)
-    ElMessage.success(result.message ?? 'login succeeded')
-    tokenStore.setToken(result.data)
-    router.push('/')
+    try {
+      const result = await loginUserService(data.value);
+      ElMessage.success(result.message ?? 'login succeeded');
+      tokenStore.setToken(result.data);
+      const infoRes = await userInfoService();
+      userInfoStore.setInfo(infoRes.data);
+      router.push('/')
+    } catch (error) {
+      ElMessage.error(error.message ?? 'login failed');
+      console.log(error);
+    }
   }
 
   const resetForm = () => {
     if (!data) return
-    data.value.username = ''
+    data.value.email = ''
     data.value.password = ''
   }
 
@@ -66,8 +103,8 @@
     :model="data"
     :rules="rules"
   >
-    <el-form-item label="Username" prop="username">
-      <el-input v-model="data.username" />
+    <el-form-item label="Email" prop="email">
+      <el-input v-model="data.email" />
     </el-form-item>
     <el-form-item label="Password" prop="password">
       <el-input v-model="data.password" type="password" autocomplete="off" />
