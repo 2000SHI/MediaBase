@@ -69,7 +69,6 @@ const saveEdit = async () => {
   };
   try {
     const res = await updateService(params);
-    console.log(res);
     if (res.code === 0) {
       ElMessage.success('Profile updated successfully');
       userInfoStore.setInfo({ ...userInfoStore.info, username: newName.value });

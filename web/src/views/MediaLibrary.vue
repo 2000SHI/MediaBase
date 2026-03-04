@@ -1,6 +1,9 @@
 <script setup>
 import { mediaListService } from '@/api/media.js'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const mediaList = ref([]);
 
@@ -65,11 +68,16 @@ const onCurrentChange = (page) => {
             <el-table-column prop="title" label="Title" width="180" />
             <el-table-column prop="type" label="Type" width="180" />
         </el-table> -->
-        <el-card v-for="media in mediaList.items" :key="media.id" style="margin-top: 20px">
-            <p class="title">{{ media.title }}</p>
-            <p>{{ media.type }}</p>
-            <p v-if="media.description">{{ media.description }}</p>
-            <p>release: {{ media.releaseDate }}</p>
+        <el-card
+          v-for="media in mediaList.items"
+          :key="media.id"
+          style="margin-top: 20px"
+          @click="router.push(`/media_library/${media.id}`)"
+        >
+          <p class="title">{{ media.title }}</p>
+          <p>{{ media.type }}</p>
+          <p v-if="media.description">{{ media.description }}</p>
+          <p>release: {{ media.releaseDate }}</p>
         </el-card>
         <el-pagination
             v-model:current-page="currPage"

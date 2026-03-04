@@ -5,6 +5,7 @@ import Layout from '@/views/Layout.vue'
 import MediaLibrary from '@/views/MediaLibrary.vue'
 import Me from '@/views/Me.vue'
 import Search from '@/views/Search.vue'
+import Media from '@/views/Media.vue'
 
 
 const routes = [
@@ -15,7 +16,14 @@ const routes = [
         component: Layout,
         redirect: '/media_library',
         children: [
-            { path: '/media_library', component: MediaLibrary },
+            {
+                path: '/media_library',
+                component: MediaLibrary,
+            },
+            {
+                path: '/media_library/:id',
+                component: Media,
+            },
             { path: '/me', component: Me },
             { path: '/search', component: Search }
         ]
