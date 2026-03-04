@@ -42,8 +42,20 @@ export const uploadAvatarService = (file) => {
         '/user/updateAvatar',
         formData,
         { headers: {
-            'Authorization': tokenStore.token ,
+            'Authorization': tokenStore.token,
             'Content-Type': 'multipart/form-data'
+        } }
+    );
+}
+
+export const updatePwdService = (params) => {
+    console.log(params);
+    const tokenStore = useTokenStore();
+    return request.patch(
+        '/user/updatePwd',
+        params,
+        { headers: {
+            'Authorization': tokenStore.token
         } }
     );
 }

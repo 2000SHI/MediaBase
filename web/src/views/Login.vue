@@ -47,7 +47,7 @@ import { useUserInfoStore } from '@/stores/userinfo'
     // ],
     email: [
       {
-        require: true,
+        required: true,
         message: 'please enter your email', 
         trigger: 'blur'
       },
@@ -59,7 +59,7 @@ import { useUserInfoStore } from '@/stores/userinfo'
     ],
     password: [
       {
-        require: true,
+        required: true,
         message: 'please enter your password', 
         trigger: 'blur'
       },

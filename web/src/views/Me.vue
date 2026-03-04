@@ -3,7 +3,7 @@ import { ElMessage } from 'element-plus';
 import { ref } from 'vue';
 import { onBeforeUnmount } from 'vue';
 import { useUserInfoStore } from '@/stores/userinfo';
-import { userInfoService, updateService, uploadAvatarService } from '@/api/user';
+import { userInfoService, updateService, uploadAvatarService, updatePwdService } from '@/api/user';
 
 const userInfoStore = useUserInfoStore();
 
@@ -13,6 +13,53 @@ let imgFile = null;
 
 const edit = ref(false);
 const newName = ref(userInfoStore.info.username);
+
+const changing = ref(false);
+const pwdData = ref({
+  oldPwd: '',
+  newPwd: '',
+  rePwd: ''
+})
+
+const validateRePass = (rule, value, callback) => {
+  if (value === '') {
+    callback(new Error('Please input the password again'))
+  } else if (value !== pwdData.value.newPwd) {
+    callback(new Error("Two passwords don't match!"))
+  } else {
+    callback()
+  }
+}
+
+const rules = ({
+    oldPwd: [
+      {
+        required: true,
+        message: 'please enter your old password', 
+        trigger: 'blur'
+      },
+      {
+        min: 6,
+        max: 16,
+        messaged: 'password length should be 6-16 characters',
+        trigger: 'blur'
+      }
+    ],
+    newPwd: [
+      {
+        required: true,
+        message: 'please enter your new password', 
+        trigger: 'blur'
+      },
+      {
+        min: 6,
+        max: 16,
+        message: 'password length should be 6-16 characters',
+        trigger: 'blur'
+      }
+    ],
+    rePwd: [{ validator: validateRePass, trigger: 'blur' }],
+  })
 
 const saveEdit = async () => {
   const params = {
@@ -37,6 +84,11 @@ const saveEdit = async () => {
   }
 }
 
+const cancelEdit = () => {
+  edit.value = false;
+  newName.value = userInfoStore.info.username;
+}
+
 const selectImg = (file) => {
   imgFile = file;
   const rawFile = file.raw;
@@ -53,7 +105,7 @@ onBeforeUnmount(() => {
   }
 })
 
-const confirm = async () => {
+const confirmAvatar = async () => {
   try {
     const res = await uploadAvatarService(imgFile.raw);
     if (res.code === 0) {
@@ -71,6 +123,34 @@ const confirm = async () => {
   } catch (error) {
     console.error('Failed to upload avatar:', error);
     ElMessage.error('Failed to upload avatar');
+  }
+}
+
+const cancelChange = () => {
+  changing.value = false;
+  pwdData.value.oldPwd = '';
+  pwdData.value.newPwd = '';
+  pwdData.value.rePwd = '';
+}
+
+const confirmChange = async () => {
+  const params = {
+    old_pwd: pwdData.value.oldPwd,
+    new_pwd: pwdData.value.newPwd,
+    re_pwd: pwdData.value.rePwd
+  }
+  try {
+    const res = await updatePwdService(params);
+    if (res.code === 0) {
+      ElMessage.success('Change successfully');
+      changing.value = false;
+      pwdData.value.oldPwd = '';
+      pwdData.value.newPwd = '';
+      pwdData.value.rePwd = '';
+    }
+  } catch (error) {
+    console.error('Failed to change password:', error);
+    ElMessage.error('change failed');
   }
 }
 
@@ -106,24 +186,49 @@ const confirm = async () => {
       </el-upload>
       <div v-if="uploading">
         <el-button @click="uploading = false">Cancel</el-button>
-        <el-button @click="confirm()">Confirm</el-button>
+        <el-button @click="confirmAvatar()">Confirm</el-button>
       </div>
       <p>Basic Information</p>
       <el-button
         v-if="!edit"
         type="primary"
-        @click="edit = !edit"
+        @click="edit = true"
       >
         Edit Profile
       </el-button>
       <div v-else>
         <p>Edit Mode</p>
         <el-button @click="saveEdit">Save</el-button>
-        <el-button @click="edit = false">Cancel</el-button>
+        <el-button @click="cancelEdit()">Cancel</el-button>
       </div>
-      <p v-if="!edit">Name: {{ userInfoStore.info.username }}</p>
-      <p v-else>Name: <input v-model="newName" /></p>
+      <!-- <p v-if="!edit">Name: {{ userInfoStore.info.username }}</p> -->
+      <p>Name: <input v-model="newName" :disabled="!edit"/></p>
       <p>Email: {{ userInfoStore.info.email }}</p>
+      <el-button v-if="!changing" type="primary" @click="changing = true">
+        Change Password
+      </el-button>
+      <div v-else>
+        <el-button @click="cancelChange()">
+          Cancel
+        </el-button>
+        <el-button @click="confirmChange()">
+          Confirm
+        </el-button>
+        <el-form
+          :model="pwdData"
+          :rules="rules"
+        >
+          <el-form-item label="Old Password" prop="oldPwd">
+            <el-input type="password" v-model="pwdData.oldPwd" placeholder="Enter the old password" />
+          </el-form-item>
+          <el-form-item label="New Password" prop="newPwd">
+            <el-input type="password" v-model="pwdData.newPwd" placeholder="Enter the new password" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="Confirm Password" prop="rePwd">
+            <el-input type="password" v-model="pwdData.rePwd" placeholder="Confirm the new password" />
+          </el-form-item>
+        </el-form>
+      </div>
     </div>
     <div v-else>
       <p>Please sign in to view your profile information.</p>

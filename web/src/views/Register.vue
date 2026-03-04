@@ -25,7 +25,7 @@
   const rules = ({
     username: [
       {
-        require: true,
+        required: true,
         message: 'please enter your username', 
         trigger: 'blur'
       },
@@ -38,7 +38,7 @@
     ],
     password: [
       {
-        require: true,
+        required: true,
         message: 'please enter your password', 
         trigger: 'blur'
       },
@@ -79,7 +79,11 @@
       <el-input v-model="data.username" />
     </el-form-item>
     <el-form-item label="Password" prop="password">
-      <el-input v-model="data.password" type="password" autocomplete="off" />
+      <el-input
+        v-model="data.password"
+        type="password"
+        autocomplete="off"
+      />
     </el-form-item>
     <el-form-item label="Confirm" prop="rePassword">
       <el-input
