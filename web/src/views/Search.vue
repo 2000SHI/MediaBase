@@ -1,6 +1,9 @@
 <script setup>
 import { searchService } from '@/api/global';
+import { useRouter } from 'vue-router';
 import { ref } from 'vue'
+
+const router = useRouter();
 
 const keyword = ref('');
 const result = ref([]);
@@ -43,6 +46,16 @@ const onCurrentChange = (page) => {
     search();
 }
 
+const clickResult = (item) => {
+  if (!item) return;
+  if (item.type) {
+    router.push(`/media_library/${item.id}`);
+  }
+  else {
+    router.push(`/person/${item.id}`);
+  }
+}
+
 </script>
 
 <template>
@@ -62,17 +75,21 @@ const onCurrentChange = (page) => {
         </el-button>
         <el-input v-model="keyword" placeholder="Input keyword"></el-input>
         <el-button @click="search" type="primary">Search</el-button>
-        <el-card v-for="item in result.items" :key="item.id" style="margin-top: 20px">
-            <div v-if="item.type">
-                <p class="title">{{ item.title }}</p>
-                <p>{{ item.type }}</p>
-                <p v-if="item.description">{{ item.description }}</p>
-                <p>release: {{ item.releaseDate }}</p>
-            </div>
-            <div v-else>
-                <p class="title">{{  item.name  }}</p>
-                <p v-if="item.bio">{{  item.bio  }}</p>
-            </div>
+        <el-card
+          @click="clickResult(item)"
+          v-for="item in result.items"
+          :key="item.id"
+          style="margin-top: 20px">
+          <div v-if="item.type">
+              <p class="title">{{ item.title }}</p>
+              <p>{{ item.type }}</p>
+              <p v-if="item.description">{{ item.description }}</p>
+              <p>release: {{ item.releaseDate }}</p>
+          </div>
+          <div v-else>
+              <p class="title">{{  item.name  }}</p>
+              <p v-if="item.bio">{{  item.bio  }}</p>
+          </div>
         </el-card>
         <el-pagination
             v-model:current-page="currPage"

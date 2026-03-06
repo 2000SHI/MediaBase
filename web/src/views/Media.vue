@@ -35,9 +35,9 @@ getDetail();
 </script>
 
 <template>
-  <el-button @click="router.push('/media_library')">
+  <!-- <el-button @click="router.push('/media_library')">
     <el-icon><Back /></el-icon>
-  </el-button>
+  </el-button> -->
   <p>media detail</p>
   <Book v-if="data && data.type === 'book'" :data="data" />
   <Movie v-if="data && data.type === 'movie'" :data="data" />
