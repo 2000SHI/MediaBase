@@ -8,3 +8,7 @@ export const mediaListService = (params) => {
 export const mediaDetailService = (id) => {
     return request.get('media/detail', {params: { id: id }})
 }
+
+export const mediaPeopleService = (id) => {
+    return request.get('media/people', {params: { id: id }})
+}
