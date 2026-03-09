@@ -16,8 +16,6 @@ const MovieData = ref(data)
   <p>Released At: {{ MovieData.releaseDate }}</p>
   <p>Duration: {{ MovieData.durationMinutes }} mins</p>
   <p>Rating: {{ MovieData.rating }}</p>
-  <p>Rate: {{ MovieData.rate || 'No Rated Yet' }}</p>
-  <p>Comments: {{ MovieData.comments || 'No Comments Yet' }}</p>
 </template>
 
 <style scoped>

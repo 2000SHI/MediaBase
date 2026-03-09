@@ -16,8 +16,6 @@ const musicData = ref(data)
   <p>Released At: {{ musicData.releaseDate }}</p>
   <p>Album: {{ musicData.album }}</p>
   <p>Duration: {{ musicData.durationSeconds }} secs</p>
-  <p>Rate: {{ musicData.rate || 'No Rating Yet' }}</p>
-  <p>Comments: {{ musicData.comments || 'No Comments Yet' }}</p>
 </template>
 
 <style scoped>

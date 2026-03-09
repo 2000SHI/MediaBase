@@ -15,8 +15,6 @@ const bookData = ref(data)
   <p v-if="bookData.description">{{ bookData.description }}</p>
   <p>Released At: {{ bookData.releaseDate }}</p>
   <p>Publisher: {{ bookData.publisher }}</p>
-  <p>Rate: {{ bookData.rate || 'No Rated Yet' }}</p>
-  <p>Comments: {{ bookData.comments || 'No Comments Yet' }}</p>
 </template>
 
 <style scoped>
