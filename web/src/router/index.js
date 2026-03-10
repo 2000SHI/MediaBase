@@ -7,6 +7,7 @@ import Me from '@/views/Me.vue'
 import Search from '@/views/Search.vue'
 import Media from '@/views/Media.vue'
 import Person from '@/views/Person.vue'
+import Add from '@/views/Add.vue'
 
 
 const routes = [
@@ -21,7 +22,8 @@ const routes = [
             { path: '/me', component: Me },
             { path: '/search', component: Search },
             { path: '/media_library/:id', component: Media },
-            { path: '/person/:id', component: Person }
+            { path: '/person/:id', component: Person },
+            { path: '/add', component: Add }
         ]
     }
 ]

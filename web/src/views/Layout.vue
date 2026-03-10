@@ -1,9 +1,11 @@
 <script setup>
 import { useUserInfoStore } from '@/stores/userinfo';
 import { useRouter } from 'vue-router';
-import { Document, User, Search } from '@element-plus/icons-vue';
+import { Document, User, Search, Plus } from '@element-plus/icons-vue';
 import avater from '@/assets/default-avater.avif';
 import { useTokenStore } from '@/stores/token';
+import { getRoleService } from '@/api/user';
+import { ref } from 'vue';
 
 const router = useRouter();
 const userInfoStore = useUserInfoStore();
@@ -11,13 +13,32 @@ const tokenStore = useTokenStore();
 
 const handleCommand = (command) => {
   if (command === 'logout') {
-      userInfoStore.removeInfo();
-      tokenStore.removeToken();
-      router.push('/login');
+    userInfoStore.removeInfo();
+    tokenStore.removeToken();
+    router.push('/login');
 } else {
     router.push('/me');
   }
 }
+
+const admin = ref(false);
+const getRole = async () => {
+  if (!tokenStore.token || !userInfoStore.info.id) return;
+  try {
+    const res = await getRoleService();
+    if (res.code === 0) {
+      admin.value = res.data;
+    }
+    else {
+      throw Error('failed to get role');
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+getRole();
+
 </script>
 
 <template>
@@ -36,6 +57,10 @@ const handleCommand = (command) => {
                 <el-menu-item index="/search">
                     <el-icon><Search /></el-icon>
                     <span>Search</span>
+                </el-menu-item>
+                <el-menu-item v-if="admin" index="/add">
+                    <el-icon><Plus /></el-icon>
+                    <span>Add Media</span>
                 </el-menu-item>
             </el-menu>
         </el-aside>

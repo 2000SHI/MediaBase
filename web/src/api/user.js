@@ -49,7 +49,6 @@ export const uploadAvatarService = (file) => {
 }
 
 export const updatePwdService = (params) => {
-    console.log(params);
     const tokenStore = useTokenStore();
     return request.patch(
         '/user/updatePwd',
@@ -57,5 +56,13 @@ export const updatePwdService = (params) => {
         { headers: {
             'Authorization': tokenStore.token
         } }
+    );
+}
+
+export const getRoleService = (id) => {
+    const tokenStore = useTokenStore();
+    return request.get(
+        '/user/admin',
+        { headers: { 'Authorization': tokenStore.token } }
     );
 }
