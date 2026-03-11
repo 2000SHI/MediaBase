@@ -60,7 +60,7 @@ getRole();
                 </el-menu-item>
                 <el-menu-item v-if="admin" index="/add">
                     <el-icon><Plus /></el-icon>
-                    <span>Add Media</span>
+                    <span>Add</span>
                 </el-menu-item>
             </el-menu>
         </el-aside>

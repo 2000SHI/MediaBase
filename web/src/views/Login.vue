@@ -32,19 +32,6 @@ import { useUserInfoStore } from '@/stores/userinfo'
   })
 
   const rules = ({
-    // username: [
-    //   {
-    //     require: true,
-    //     message: 'please enter your username', 
-    //     trigger: 'blur'
-    //   },
-    //   {
-    //     min: 1,
-    //     max: 32,
-    //     message: 'username length should be 1-32 characters',
-    //     trigger: 'blur'
-    //   }
-    // ],
     email: [
       {
         required: true,

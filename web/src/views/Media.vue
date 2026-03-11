@@ -50,11 +50,12 @@ const getPeople = async () => {
   try {
     const res = await mediaPeopleService(id);
     if (res.code === 0) {
+      console.log(res.data);
       for (const person of res.data) {
         people.value.push({
           id: person.personId,
           name: person.name,
-          role: person.character ? person.role + ' as ' + person.character : person.role
+          role: person.characterName ? person.role + ' as ' + person.characterName : person.role
         })
       }
     }

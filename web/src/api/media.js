@@ -91,3 +91,14 @@ export const deleteCommentService = (id) => {
         }
     );
 }
+
+export const addService = (params) => {
+    const tokenStore = useTokenStore();
+    return request.post(
+        'media/',
+        params,
+        {
+            headers: { 'Authorization': tokenStore.token }
+        }
+    );
+}
