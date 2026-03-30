@@ -8,17 +8,18 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: app_db
-    ports:
-      - "3306:3306"
+    expose:
+      - "3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./db:/docker-entrypoint-initdb.d
 
   redis:
     image: redis:7
     container_name: redis
     restart: always
-    ports:
-      - "6379:6379"
+    expose:
+      - "6379"
 
   backend:
     build: ./backend   # path to your Spring Boot Dockerfile
@@ -31,9 +32,9 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
       SPRING_REDIS_HOST: redis
-    deploy:
-      replicas: 3   # ⚠️ works with Docker Swarm, see note below
-    ports:
+    # deploy:
+    #   replicas: 3   # ⚠️ works with Docker Swarm, see note below
+    expose:
       - "8080"
 
   nginx:
@@ -46,7 +47,7 @@ services:
       - "80:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./frontend/dist:/usr/share/nginx/html
+      - ./web/dist:/usr/share/nginx/html
 
 volumes:
   mysql_data:
