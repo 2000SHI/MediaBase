@@ -22,7 +22,7 @@ services:
       - "6379"
 
   backend:
-    build: ./backend   # path to your Spring Boot Dockerfile
+    build: ./media-base   # path to your Spring Boot Dockerfile
     restart: always
     depends_on:
       - mysql
