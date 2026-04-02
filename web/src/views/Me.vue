@@ -8,11 +8,11 @@ import { userInfoService, updateService, uploadAvatarService, updatePwdService }
 const userInfoStore = useUserInfoStore();
 
 const uploading = ref(false);
-const imgUrl = ref(userInfoStore.info.avatar);
+const imgUrl = ref(userInfoStore.info?.avatar);
 let imgFile = null;
 
 const edit = ref(false);
-const newName = ref(userInfoStore.info.username);
+const newName = ref(userInfoStore.info?.username);
 
 const changing = ref(false);
 const pwdData = ref({
