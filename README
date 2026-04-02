@@ -1,0 +1,1 @@
+To start the project, run `docker compose up --build --scale backend=3`
