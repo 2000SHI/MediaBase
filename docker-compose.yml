@@ -6,7 +6,7 @@ services:
     container_name: mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-password}
       MYSQL_DATABASE: app_db
     expose:
       - "3306"
@@ -28,10 +28,10 @@ services:
       - mysql
       - redis
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/app_db
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-      SPRING_REDIS_HOST: redis
+      SPRING_DATASOURCE_URL: ${DB_URL:-jdbc:mysql://mysql:3306/app_db}
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME:-root}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-password}
+      SPRING_REDIS_HOST: ${REDIS_HOST:-redis}
     # deploy:
     #   replicas: 3   # ⚠️ works with Docker Swarm, see note below
     expose:
