@@ -3,8 +3,8 @@ import { ElMessage } from "element-plus";
 import router from "@/router";
 import { useTokenStore } from "@/stores/token";
 
-// const baseURL = 'http://localhost:8080/';
-const baseURL = '/api';
+const baseURL = `${import.meta.env.VITE_API_BASE_URL ?? ''}/api`;
+console.log('API Base URL:', baseURL);
 const instance = axios.create({ baseURL })
 
 
