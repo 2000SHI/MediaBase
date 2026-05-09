@@ -50,7 +50,6 @@ const getPeople = async () => {
   try {
     const res = await mediaPeopleService(id);
     if (res.code === 0) {
-      console.log(res.data);
       for (const person of res.data) {
         people.value.push({
           id: person.personId,
