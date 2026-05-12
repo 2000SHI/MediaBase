@@ -21,7 +21,7 @@ WITH RECURSIVE nums AS (
     UNION ALL
     SELECT n + 1
     FROM nums
-    WHERE n < 5
+    WHERE n < 100
 )
 SELECT 'movie', CONCAT('movie', n)
 FROM nums;
