@@ -6,7 +6,7 @@ create table media
     title        varchar(128)                          not null,
     description  text                                  null,
     release_date date                                  null,
-    create_time  timestamp                             not null
+    create_time  timestamp default (now())             not null
 );
 
 create table book
