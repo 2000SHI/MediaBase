@@ -1,3 +1,5 @@
+SET NAMES utf8mb4;
+
 -- user
 insert into user (id, username, password, email, avatar, create_time, update_time) values
 (1, 'admin', '$2a$10$SedOHTMhAJ1k88FFdg0Kxu7UoDzWD3vsGStj1u.tYkY6OvigN1QkC', 'admin@mediabase.com', null, '2026-03-10 10:16:46', '2026-03-10 10:16:46'),

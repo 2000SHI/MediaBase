@@ -9,6 +9,12 @@ create table media
     create_time  timestamp default (now())             not null
 );
 
+create index media_type
+    on media (type);
+
+create index media_title
+    on media (title);
+
 create table book
 (
     media_id  int unsigned not null
