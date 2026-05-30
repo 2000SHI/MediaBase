@@ -1,4 +1,6 @@
-SET SESSION cte_max_recursion_depth = 10000;
+SET @rows = 2500;
+
+SET SESSION cte_max_recursion_depth = @rows + 10;
 
 -- book
 INSERT INTO media (type, title)
@@ -7,7 +9,7 @@ WITH RECURSIVE nums AS (
     UNION ALL
     SELECT n + 1
     FROM nums
-    WHERE n < 2000
+    WHERE n < @rows
 )
 SELECT 'book', CONCAT('book', n)
 FROM nums;
@@ -23,7 +25,7 @@ WITH RECURSIVE nums AS (
     UNION ALL
     SELECT n + 1
     FROM nums
-    WHERE n < 2000
+    WHERE n < @rows
 )
 SELECT 'movie', CONCAT('movie', n)
 FROM nums;
@@ -39,7 +41,7 @@ WITH RECURSIVE nums AS (
     UNION ALL
     SELECT n + 1
     FROM nums
-    WHERE n < 2000
+    WHERE n < @rows
 )
 SELECT 'music', CONCAT('music', n)
 FROM nums;
@@ -55,7 +57,7 @@ WITH RECURSIVE nums AS (
     UNION ALL
     SELECT n + 1
     FROM nums
-    WHERE n < 2000
+    WHERE n < @rows
 )
 SELECT 'tv', CONCAT('tv', n)
 FROM nums;
